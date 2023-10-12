@@ -28,5 +28,7 @@ fun Application.module() {
 
     configureStaticRouting()
 
+    configureRoutingUpload()
+
     configureSerialization()
 }

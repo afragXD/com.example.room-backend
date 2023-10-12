@@ -36,3 +36,4 @@ out/
 .vscode/
 /src/main/resources/avatars/
 /src/main/resources/videos/
+/src/main/resources/upload_test/
