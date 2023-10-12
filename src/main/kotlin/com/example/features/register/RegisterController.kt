@@ -39,6 +39,7 @@ class RegisterController(val call: ApplicationCall) {
                         username = registerReceiveRemote.username,
                         gender = registerReceiveRemote.gender,
                         role = "user",
+                        avatar = "",
                     )
                 )
             }catch (e: ExposedSQLException){

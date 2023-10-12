@@ -11,6 +11,7 @@ object Users: Table() {
     private val email = Users.varchar("email", 25)
     private val gender = Users.bool("gender")
     private val role = Users.varchar("role", 15)
+    private val avatar = Users.text("avatar")
 
     fun insert(userDTO: UserDTO){
         transaction {
@@ -34,6 +35,7 @@ object Users: Table() {
                     username = userModel[username],
                     gender = userModel[gender],
                     role = userModel[role],
+                    avatar = userModel[avatar],
                 )
             }
         } catch (e: Exception){

@@ -17,10 +17,11 @@ class ProfileController(private val call: ApplicationCall) {
             if (userDTO != null) {
                 call.respond(
                     ProfileResponseRemote(
-                    email = userDTO.email,
-                    username = userDTO.username,
-                    gender = userDTO.gender,
-                )
+                        email = userDTO.email,
+                        username = userDTO.username,
+                        gender = userDTO.gender,
+                        avatar = userDTO.avatar,
+                    )
                 )
             }
         }else{

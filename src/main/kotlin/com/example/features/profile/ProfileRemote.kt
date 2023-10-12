@@ -8,4 +8,5 @@ data class ProfileResponseRemote(
     val email: String,
     val username: String,
     val gender: Boolean,
+    val avatar: String,
 )

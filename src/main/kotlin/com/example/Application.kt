@@ -26,6 +26,7 @@ fun Application.module() {
 
     configureProfileRouting()
 
+    configureStaticRouting()
 
     configureSerialization()
 }

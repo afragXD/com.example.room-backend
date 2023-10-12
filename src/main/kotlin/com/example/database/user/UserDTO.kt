@@ -6,4 +6,5 @@ class UserDTO(
     val username: String,
     val gender: Boolean,
     val role: String,
+    val avatar: String,
 )
