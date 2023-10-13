@@ -8,6 +8,7 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
 import com.example.features.profile.configureProfileRouting
+import com.example.features.update.configureUpdate
 
 fun main() {
 
@@ -25,6 +26,7 @@ fun Application.module() {
     configureLoginRouting()
 
     configureProfileRouting()
+    configureUpdate()
 
     configureStaticRouting()
 
