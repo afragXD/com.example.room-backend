@@ -22,9 +22,13 @@ class LoginController(val call: ApplicationCall) {
 
         val receive = call.receive<LoginReceiveRemote>()
 
+        val api_key = call.request.headers["Bearer-Authorization"]
+
         val userDTO = Users.fetchUser(receive.email)
 
-        if (userDTO == null){
+        if (!api_key.equals(System.getenv("API_KEY"))){
+            call.respond(HttpStatusCode.Unauthorized, "Получи токен, еблан")
+        }else if (userDTO == null){
             call.respond(HttpStatusCode.BadRequest, "User not found")
         } else{
             if (userDTO.password == receive.password){

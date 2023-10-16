@@ -21,10 +21,13 @@ class RegisterController(val call: ApplicationCall) {
     suspend fun registerNewUser(){
 
         val registerReceiveRemote = call.receive<RegisterReceiveRemote>()
+        val api_key = call.request.headers["Bearer-Authorization"]
 
         val userDTO = Users.fetchUser(registerReceiveRemote.email)
 
-        if (!registerReceiveRemote.email.isValidEmail()){
+        if (!api_key.equals(System.getenv("API_KEY"))){
+            call.respond(HttpStatusCode.Unauthorized, "Получи токен, еблан")
+        }else if (!registerReceiveRemote.email.isValidEmail()){
             call.respond(HttpStatusCode.InternalServerError, "Email не валидный")
         }else if (userDTO != null){
             call.respond(HttpStatusCode.Conflict, "Пользователь уже существует")

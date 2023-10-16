@@ -9,6 +9,7 @@ import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
 import com.example.features.profile.configureProfileRouting
 import com.example.features.update.configureUpdate
+import io.ktor.server.netty.*
 
 fun main() {
 
@@ -16,11 +17,13 @@ fun main() {
         user = "postgres", password = "742617"
     )
 
-    embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 
 fun Application.module() {
+    //configureHTTP()
+    //configureSwagger()
     configureRouting()
     configureRegisterRouting()
     configureLoginRouting()
