@@ -1,8 +1,6 @@
 package com.example.features.update
 
-import com.example.features.register.RegisterController
 import io.ktor.server.application.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureUpdate() {
@@ -10,6 +8,10 @@ fun Application.configureUpdate() {
         post("/update/username") {
             val updateController = UpdateUsernameController(call)
             updateController.updateUsername()
+        }
+        post("/update/avatar") {
+            val updateController = UpdateAvatarController(call)
+            updateController.updateAvatar()
         }
     }
 }

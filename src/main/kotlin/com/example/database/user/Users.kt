@@ -1,7 +1,5 @@
 package com.example.database.user
 
-import com.example.database.tokens.Tokens
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -45,10 +43,18 @@ object Users: Table() {
             null
         }
     }
-    fun fetchUpdateUsername(oldEmail: String, newUsername:String){
+    fun fetchUpdateUsername(searchEmail: String, newUsername:String){
         transaction {
-            Users.update({Users.email eq oldEmail}){
+            Users.update({Users.email eq searchEmail}){
                 it[Users.username] = newUsername
+            }
+        }
+    }
+
+    fun fetchUpdateAvatar(searchEmail: String, newAvatarUrl:String){
+        transaction {
+            Users.update({Users.email eq searchEmail}){
+                it[Users.avatar] = newAvatarUrl
             }
         }
     }

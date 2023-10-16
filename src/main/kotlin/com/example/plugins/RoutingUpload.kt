@@ -1,5 +1,11 @@
 package com.example.plugins
 
+import com.example.database.tokens.Tokens
+import com.example.database.user.Users
+import com.example.features.profile.ProfileResponseRemote
+import com.example.utils.TokenCheck
+import com.example.utils.toHex
+import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -8,11 +14,11 @@ import io.ktor.server.routing.*
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import java.io.File
+import java.security.MessageDigest
 
 fun Application.configureRoutingUpload() {
     routing {
         var fileDescription = ""
-        var fileName = ""
         var fileType = ""
 
         post("/upload") {
@@ -23,22 +29,37 @@ fun Application.configureRoutingUpload() {
                     is PartData.FormItem -> {
                         fileDescription = part.value
                     }
-
                     is PartData.FileItem -> {
                         part.originalFileName?.let { originalFileName ->
                             fileType = originalFileName.substringAfterLast(".")
-                            fileName = part.name as String
-                            val fileBytes = part.streamProvider().readBytes()
-                            File("src/main/resources/upload_test/$fileName.$fileType").writeBytes(fileBytes)
+                            val allowedExtensions = arrayOf("png", "jpg", "webp")
+                            val token = part.name as String
+                            if (fileType !in allowedExtensions){
+                                call.respondText("Недопустимое расширение файла")
+                            }else if (TokenCheck.isTokenValid(token.orEmpty())){
+                                val tokenDTO = Tokens.fetchTokens1(token.toString())
+                                val userDTO = tokenDTO?.let { Users.fetchUser(it.email) }
+                                if (userDTO != null) {
+                                    val fileBytes = part.streamProvider().readBytes()
+                                    val fileName = "${userDTO.email.toByteArray().toHex()}.png"
+                                    File("src/main/resources/avatars/$fileName").writeBytes(fileBytes)
+                                    Users.fetchUpdateAvatar(userDTO.email, "http://arisen.ddns.net:8080/static/avatars/$fileName")
+                                    call.respondText("Аватарка обновлена")
+                                }
+                            }else{
+                                if (token.isEmpty()){
+                                    call.respond(HttpStatusCode.Forbidden, "Еблан входа")
+                                }else {
+                                    Tokens.fetchOut(token)
+                                    call.respond(HttpStatusCode.Unauthorized, "Срок действия токена истек")
+                                }
+                            }
                         }
                     }
-
                     else -> {}
                 }
                 part.dispose()
             }
-
-            call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
         }
     }
 }
