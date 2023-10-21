@@ -8,13 +8,14 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
 import com.example.features.profile.configureProfileRouting
+import com.example.features.tournaments.configureTournamentsRouting
 import com.example.features.update.configureUpdate
 import io.ktor.server.netty.*
 
 fun main() {
 
-    Database.connect("jdbc:postgresql://localhost:5432/roommy", driver = "org.postgresql.Driver",
-        user = "postgres", password = "742617"
+    Database.connect("jdbc:postgresql://localhost:5432/Hack", driver = "org.postgresql.Driver",
+        user = "habrpguser", password = "pgpwd4habr"
     )
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -30,6 +31,8 @@ fun Application.module() {
 
     configureProfileRouting()
     configureUpdate()
+
+    configureTournamentsRouting()
 
     configureStaticRouting()
 

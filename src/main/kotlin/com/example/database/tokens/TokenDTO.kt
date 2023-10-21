@@ -1,6 +1,6 @@
 package com.example.database.tokens
 
-class TokenDTO(
+data class TokenDTO(
     val rowId: String,
     val email: String,
     val token: String,

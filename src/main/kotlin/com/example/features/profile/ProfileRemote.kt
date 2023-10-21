@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfileResponseRemote(
+    val id: Int,
     val email: String,
     val username: String,
     val gender: Boolean,

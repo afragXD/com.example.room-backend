@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 object Users: Table() {
+    private val id = Users.integer("id")
     private val password = Users.varchar("password", 25)
     private val username = Users.varchar("username", 30)
     private val email = Users.varchar("email", 25)
@@ -31,6 +32,7 @@ object Users: Table() {
             transaction {
                 val userModel = Users.select { Users.email.eq(email) }.single()
                 UserDTO(
+                    id = userModel[Users.id],
                     email = userModel[Users.email],
                     password = userModel[password],
                     username = userModel[username],

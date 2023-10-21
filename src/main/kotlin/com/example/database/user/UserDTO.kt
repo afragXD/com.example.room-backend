@@ -1,6 +1,9 @@
 package com.example.database.user
 
-class UserDTO(
+import java.math.BigInteger
+
+data class UserDTO(
+    val id:  Int,
     val email: String,
     val password: String,
     val username: String,

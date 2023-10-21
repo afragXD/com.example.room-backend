@@ -37,6 +37,7 @@ class RegisterController(val call: ApplicationCall) {
             try{
                 Users.insert(
                     UserDTO(
+                        id = 1,
                         email = registerReceiveRemote.email,
                         password = registerReceiveRemote.password,
                         username = registerReceiveRemote.username,
